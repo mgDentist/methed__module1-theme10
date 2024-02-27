@@ -1,51 +1,48 @@
 'use strict';
 
 const cart = {
-    items: [],
-    totalPrice: 0,
-    count: 0,
+  items: [],
+  totalPrice: 0,
+  count: 0,
 
-    add(item, price, amount = 1) {
-        const userItemArr = {
-            itemName: item,
-            itemPrice: price,
-            itemAmount: amount,
-        }
+  add(item, price, amount = 1) {
+    const userItemArr = {
+      itemName: item,
+      itemPrice: price,
+      itemAmount: amount,
+    };
 
-        this.items.push(userItemArr);
-        this.increaseCount(amount);
-        this.calculateItemPrice();
-    },
+    this.items.push(userItemArr);
+    this.increaseCount(amount);
+    this.calculateItemPrice();
+  },
 
-    increaseCount(amount) {
-        this.count += amount;
-    },
+  increaseCount(amount) {
+    this.count += amount;
+  },
 
-    calculateItemPrice() {
+  calculateItemPrice() {
+    return (
+      this.items.reduce((acc, item) => (
+        acc + (item.itemPrice * item.itemAmount)
+      ), 0)
+    );
+  },
 
-        return (
-            this.items.reduce((acc, item) => {
-                return (
-                    acc + (item.itemPrice * item.itemAmount)
-                );
-            }, 0)
-        )
-    },
+  get finalPrice() {
+    return this.calculateItemPrice();
+  },
 
-    get totalPrice() {
-        return this.calculateItemPrice();
-    },
+  clear() {
+    this.items = [];
+    this.totalPrice = 0;
+    this.count = 0;
+  },
 
-    clear() {
-        this.items = [];
-        this.totalPrice = 0;
-        this.count = 0;
-    },
-
-    print() {
-        console.log(JSON.stringify(this.items));
-        console.log(`Общая стоимость корзины: ${this.totalPrice}`);
-    },
+  print() {
+    console.log(JSON.stringify(this.items));
+    console.log(`Общая стоимость корзины: ${this.totalPrice}`);
+  },
 };
 
 cart.add('Будильник', 1700, 2);
